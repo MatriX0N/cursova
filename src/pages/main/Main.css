@@ -1,0 +1,65 @@
+.app {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+    min-height: 100vh;
+  }
+  
+  .search-bar {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .search-bar input {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-bar button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0077ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .search-bar button:hover {
+    background-color: #005ec2;
+  }
+  
+  .result-box {
+    text-align: left;
+    margin: 2rem auto;
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 15px;
+    max-width: 700px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    white-space: pre-wrap;
+  }
+  
+  .forecast-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .forecast-item {
+    background: #f1f1f1;
+    border-radius: 10px;
+    padding: 0.8rem;
+    text-align: center;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  }
+  

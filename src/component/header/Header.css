@@ -1,0 +1,55 @@
+.headerBlock {
+    width: 100%;
+    height: 108px;
+    background-color: #212A3E;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 40px;
+}
+
+.headerLogo {
+    width: 225px;
+    height: 79px;
+    object-fit: cover;
+    margin-top: 10px;
+}
+
+.navigatorSite {
+    display: flex;
+}
+
+.navigatorTarget {
+    border-bottom: 2px solid transparent; 
+    transition: border-bottom 0.3s ease-in-out;
+    margin: 34px;
+     color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer; 
+}
+
+
+
+.navigatorTarget:hover {
+    border-bottom: 2px solid white; 
+}
+
+.btnAddCar , .btnLogReg {
+    width: 260px;
+    height: 69px;
+    border-radius: 20px;
+    background-color: white;
+    border: none;
+    color: #212A3E;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 20px;
+    cursor: pointer;
+}
+
+.headerBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
