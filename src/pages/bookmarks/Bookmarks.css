@@ -1,0 +1,74 @@
+.bookmarks-container {
+    padding: 2rem;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .bookmarks-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+    max-height: 240px; /* ~6 елементів по 40px */
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .bookmark-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e3f2fd;
+    margin: 5px 10px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 18px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .bookmark-item span:hover {
+    text-decoration: underline;
+  }
+  
+  .weather-box {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  .forecast-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .forecast-item {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 0.8rem;
+    text-align: center;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .remove-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .scrollable::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollable::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 5px;
+  }

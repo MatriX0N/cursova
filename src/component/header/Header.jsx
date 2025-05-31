@@ -3,12 +3,15 @@ import './Header.css'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useAuth0 } from "@auth0/auth0-react";
+import Login from "../login/Login";
 
 function Header({ onLogin }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false) 
     const [message, setMessage] = useState('') 
     const navigate = useNavigate()
+    const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
     useEffect(() => {
         const storedUserInfo = localStorage.getItem('user-info')
@@ -64,26 +67,26 @@ function Header({ onLogin }) {
                 <Link className='navigatorTarget' to={'./'}>
                     Головна
                 </Link>
-                <Link className='navigatorTarget' to={'./KatalogCar'}>
+                <Link className='navigatorTarget' to={'./bookmarks'}>
                     Закладки
                 </Link>
-                <Link className='navigatorTarget' to={'./MyProfile'}>
+                <Link className='navigatorTarget' to={'./profile'}>
                     Профіль
                 </Link>
-                <Link className='navigatorTarget' to={"./chatPage"}>
+                <Link className='navigatorTarget' to={"./history"}>
                     Історія
                 </Link>
             </nav>
             <div className='headerBtn'>
-                {isLoggedIn ? (
-                    <button onClick={handleLogout} className='btnLogReg'>
-                        Вийти
-                    </button>
-                ) : (
-                    <Link to={'/Singin'}>
-                        <button className='btnLogReg'>Увійти</button>
-                    </Link>
-                )}
+            {isAuthenticated ? (
+                <button className="auth-btn logout" onClick={() => logout({ returnTo: "http://localhost:5173/" })}>
+                Вийти
+                </button>
+            ) : (
+                <button className="auth-btn login" onClick={() => loginWithRedirect()}>
+                Увійти
+                </button>
+            )}
             </div>
             
         </div>

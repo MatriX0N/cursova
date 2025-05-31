@@ -2,7 +2,6 @@
     width: 100%;
     height: 108px;
     background-color: #212A3E;
-    margin-bottom: 40px;
     display: flex;
     justify-content: space-between;
     line-height: 40px;
@@ -35,21 +34,44 @@
     border-bottom: 2px solid white; 
 }
 
-.btnAddCar , .btnLogReg {
-    width: 260px;
-    height: 69px;
-    border-radius: 20px;
-    background-color: white;
-    border: none;
-    color: #212A3E;
+
+.btnLogReg{
+    width: 150px;
+    height: 47px;
     font-size: 24px;
     font-weight: bold;
-    margin: 20px 20px;
+    border: none;
+    background-color: #E8E8E8;
     cursor: pointer;
 }
 
-.headerBtn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+.auth-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    margin-top: 30px;
+    margin-right: 10px;
+  }
+  
+  .auth-btn:hover {
+    background: linear-gradient(135deg, #4338ca, #2563eb);
+    transform: translateY(-2px);
+  }
+  
+  .auth-btn:active {
+    transform: scale(0.97);
+  }
+  
+  .logout {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+  }
+  
+  .logout:hover {
+    background: linear-gradient(135deg, #b91c1c, #991b1b);
+  }

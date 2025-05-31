@@ -1,10 +1,44 @@
 .app {
-    text-align: center;
-    padding: 2rem;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #e0f7fa, #ffffff);
-    min-height: 100vh;
-  }
+  text-align: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  transition: background 0.7s ease;
+}
+
+/* Залишити базовий градієнт як default */
+.default-bg {
+  background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+}
+
+/* Сонце */
+.clear-sky {
+  background: url('https://i.pinimg.com/736x/c0/da/ce/c0dace9725cfb01305bedc9055a84e2f.jpg') no-repeat center center/cover;
+}
+
+/* Хмарно */
+.cloudy {
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+}
+
+/* Дощ */
+.rain {
+  background: url('https://i.pinimg.com/736x/1b/c4/43/1bc443d9854b7d0584f8a803f494252e.jpg') no-repeat center center/cover;
+}
+
+/* Сніг */
+.snow {
+  background: url('https://i.pinimg.com/736x/5c/5c/3b/5c5c3beb54a38cbddc463906cff5eb1f.jpg') no-repeat center center/cover;
+}
+
+/* Якщо фон з картинкою - текст треба світлий */
+.clear-sky,
+.cloudy,
+.rain,
+.snow {
+  color: white;
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+}
   
   .search-bar {
     margin: 20px auto;
@@ -61,5 +95,21 @@
     padding: 0.8rem;
     text-align: center;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .bookmark-btn {
+    background-color: #0077ff;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s;
+  }
+  
+  .bookmark-btn:hover {
+    background-color: #001aff;
   }
   
