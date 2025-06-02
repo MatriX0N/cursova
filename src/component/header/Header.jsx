@@ -12,6 +12,7 @@ function Header({ onLogin }) {
     const [message, setMessage] = useState('') 
     const navigate = useNavigate()
     const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
         const storedUserInfo = localStorage.getItem('user-info')
@@ -24,6 +25,16 @@ function Header({ onLogin }) {
 
         return () => clearInterval(interval)
     }, [])
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+            setIsDarkMode(true);
+            document.body.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+        }
+    }, []);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -44,6 +55,18 @@ function Header({ onLogin }) {
             fetchNotifications()
         }
     }, [isLoggedIn])
+
+    const toggleTheme = () => {
+        const newTheme = isDarkMode ? "light" : "dark";
+        setIsDarkMode(!isDarkMode);
+        localStorage.setItem("theme", newTheme);
+
+        if (newTheme === "dark") {
+            document.body.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+        }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('user-info')
@@ -76,8 +99,14 @@ function Header({ onLogin }) {
                 <Link className='navigatorTarget' to={"./history"}>
                     Історія
                 </Link>
+                <Link className='navigatorTarget' to={"./comparison"}>
+                    Порівняння
+                </Link>
             </nav>
             <div className='headerBtn'>
+            <button onClick={toggleTheme} className='theme-toggle-btn'>
+                    {isDarkMode ? "🌞 Світло" : "🌙 Темно"}
+                </button>
             {isAuthenticated ? (
                 <button className="auth-btn logout" onClick={() => logout({ returnTo: "http://localhost:5173/" })}>
                 Вийти

@@ -10,7 +10,6 @@ const Main = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [backgroundClass, setBackgroundClass] = useState("");
 
-  // Завантаження закладок при старті
   useEffect(() => {
     const storedBookmarks = JSON.parse(localStorage.getItem("weatherBookmarks")) || [];
     setBookmarks(storedBookmarks);
@@ -19,18 +18,13 @@ const Main = () => {
   useEffect(() => {
     if (result?.current?.condition) {
       const code = result.current.condition.code;
-      // За кодами погоди з WeatherAPI (див https://www.weatherapi.com/docs/)
       if ([1000].includes(code)) {
-        // Сонячна погода
         setBackgroundClass("clear-sky");
       } else if ([1003, 1006, 1009].includes(code)) {
-        // Хмарно
         setBackgroundClass("cloudy");
       } else if ([1030, 1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1240, 1243, 1246].includes(code)) {
-        // Дощ
         setBackgroundClass("rain");
       } else if ([1066, 1114, 1210, 1213, 1216, 1219, 1222, 1225].includes(code)) {
-        // Сніг
         setBackgroundClass("snow");
       } else {
         setBackgroundClass("default-bg");
@@ -39,6 +33,50 @@ const Main = () => {
       setBackgroundClass("default-bg");
     }
   }, [result]);
+
+  useEffect(() => {
+    const fetchLocationAndWeather = async () => {
+      try {
+        const locationRes = await axios.get("https://ipapi.co/json/");
+        const cityFromIP = locationRes.data.city;
+        if (cityFromIP) {
+          setCity(cityFromIP);
+          fetchWeather(cityFromIP);
+        }
+      } catch (err) {
+        console.error("Не вдалося визначити місцезнаходження:", err);
+      }
+    };
+  
+    fetchLocationAndWeather();
+  }, []);
+
+  const fetchWeather = async (targetCity) => {
+    if (!targetCity.trim()) {
+      setError("Будь ласка, введіть місто");
+      setResult(null);
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json`, {
+        params: {
+          key: "3035a3aa463a4aeea0f203951253005",
+          q: targetCity,
+          days: 7,
+          lang: "ua",
+        },
+      });
+      setResult(response.data);
+      updateHistory(targetCity);
+    } catch (err) {
+      setError("Місто не знайдено або помилка запиту");
+      setResult(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addToBookmarks = () => {
     if (!result?.location?.name) return;
@@ -52,38 +90,14 @@ const Main = () => {
     }
   };
 
-  const handleSearch = async () => {
-    if (!city.trim()) {
-      setError("Будь ласка, введіть місто");
-      setResult(null);
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get(`https://api.weatherapi.com/v1/forecast.json`, {
-        params: {
-          key: "3035a3aa463a4aeea0f203951253005",
-          q: city,
-          days: 7,
-          lang: "ua",
-        },
-      });
-      setResult(response.data);
-      updateHistory(city);
-    } catch (err) {
-      setError("Місто не знайдено або помилка запиту");
-      setResult(null);
-    } finally {
-      setLoading(false);
-    }
+  const handleSearch = () => {
+    fetchWeather(city);
   };
 
   const updateHistory = (city) => {
     const historyKey = "weatherHistory";
     const existing = JSON.parse(localStorage.getItem(historyKey)) || [];
   
-    // Уникнути дублювання
     const filtered = existing.filter(
       (entry) => entry.city.toLowerCase() !== city.toLowerCase()
     );
@@ -92,8 +106,7 @@ const Main = () => {
       { city, timestamp: new Date().toISOString() },
       ...filtered,
     ];
-  
-    // Обмеження до 10 записів
+
     const limited = updated.slice(0, 10);
   
     localStorage.setItem(historyKey, JSON.stringify(limited));

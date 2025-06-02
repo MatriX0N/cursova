@@ -21,6 +21,8 @@
   a,
   span,
   p,
+  li,
+  ul,
   b,
   h1,
   h2,
@@ -43,3 +45,43 @@
   a {
       text-decoration: none;
   }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    transition: background 0.5s, color 0.5s;
+    background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+    color: #000;
+  }
+  
+  body.dark-mode {
+    background: linear-gradient(to bottom, #1a1a1a, #121212);
+    color: #fff;
+  }
+  
+  body.dark-mode h1,h2,h3,h4,h5,h6,p,li,ul {
+    color: #acacac;
+  }
+
+  /* Темна тема для блоків */
+  body.dark-mode .result-box,
+  body.dark-mode .forecast-item,
+  body.dark-mode .headerBlock,
+  body.dark-mode .search-bar input {
+    background-color: #2c2c2c !important;
+    color: white !important;
+    border-color: #444;
+  }
+  
+  .theme-toggle-btn {
+    background: transparent;
+    border: 1px solid #888;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: inherit;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  

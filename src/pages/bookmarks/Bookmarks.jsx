@@ -6,13 +6,65 @@ const Bookmarks = () => {
   const [bookmarkedCities, setBookmarkedCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
+  const [alerts, setAlerts] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const storedBookmarks = JSON.parse(localStorage.getItem("bookmarkedCities")) || [];
     setBookmarkedCities(storedBookmarks);
+    fetchAllWeather(storedBookmarks);
+
+    const intervalId = setInterval(() => {
+      fetchAllWeather(storedBookmarks);
+    }, 1000); 
+  
+    return () => clearInterval(intervalId);
   }, []);
+
+  const fetchAllWeather = async (cities) => {
+    const newAlerts = {};
+  
+    await Promise.all(
+      cities.map(async (city) => {
+        try {
+          const response = await axios.get("https://api.weatherapi.com/v1/current.json", {
+            params: {
+              key: "3035a3aa463a4aeea0f203951253005",
+              q: city,
+              lang: "ua",
+            },
+          });
+  
+          const current = response.data.current;
+          const condition = current.condition.text.toLowerCase();
+          const temp = current.temp_c;
+          const wind = current.wind_kph;
+
+          if (
+            condition.includes("rain") ||
+            condition.includes("гроза") ||
+            condition.includes("сніг") ||
+            condition.includes("злива") ||
+            condition.includes("мряка") ||
+            condition.includes("буря") ||
+            condition.includes("туман") ||
+            wind > 15
+          ) {
+            newAlerts[city] = {
+              condition: current.condition.text,
+              temp,
+              wind,
+            };
+          }
+        } catch (err) {
+          console.warn(`Не вдалося завантажити погоду для ${city}`);
+        }
+      })
+    );
+  
+    setAlerts(newAlerts);
+  };
 
   const handleCityClick = async (city) => {
     setSelectedCity(city);
@@ -40,29 +92,58 @@ const Bookmarks = () => {
     const updated = bookmarkedCities.filter((city) => city !== cityToRemove);
     localStorage.setItem("bookmarkedCities", JSON.stringify(updated));
     setBookmarkedCities(updated);
+    const updatedAlerts = { ...alerts };
+    delete updatedAlerts[cityToRemove];
+    setAlerts(updatedAlerts);
 
-    // Якщо видаляється активне місто — очищаємо погоду
     if (selectedCity === cityToRemove) {
       setWeatherData(null);
       setSelectedCity(null);
     }
   };
 
+  const handleClearAllBookmarks = () => {
+    localStorage.removeItem("bookmarkedCities");
+    setBookmarkedCities([]);
+    setAlerts({});
+    setSelectedCity(null);
+    setWeatherData(null);
+  };
+
   return (
     <div className="bookmarks-container">
       <h1>📌 Закладки</h1>
 
-      {bookmarkedCities.length === 0 ? (
-        <p>У вас ще немає збережених міст.</p>
-      ) : (
-        <ul className="bookmarks-list scrollable">
-          {bookmarkedCities.map((city, index) => (
-            <li key={index} className="bookmark-item">
-              <span onClick={() => handleCityClick(city)}>{city}</span>
-              <button className="remove-btn" onClick={() => handleRemoveBookmark(city)}>✕</button>
+      {Object.keys(alerts).length > 0 && (
+      <div className="alerts-box">
+        <h3>⚠️ Попередження про погіршення погоди</h3>
+        <ul>
+          {Object.entries(alerts).map(([city, info]) => (
+            <li key={city}>
+              <strong>{city}</strong>: {info.condition}, {info.temp}°C, 💨 {info.wind} км/год
             </li>
           ))}
         </ul>
+      </div>
+    )}
+
+      {bookmarkedCities.length === 0 ? (
+        <p>У вас ще немає збережених міст.</p>
+      ) : (
+        <>
+          <ul className="bookmarks-list scrollable">
+            {bookmarkedCities.map((city, index) => (
+              <li key={index} className="bookmark-item">
+                <span onClick={() => handleCityClick(city)}>{city}</span>
+                <button className="remove-btn" onClick={() => handleRemoveBookmark(city)}>✕</button>
+              </li>
+            ))}
+          </ul>
+
+          <button className="clear-all-btn" onClick={handleClearAllBookmarks}>
+            🗑️ Видалити всі закладки
+          </button>
+        </>
       )}
 
       {loading && <p>Завантаження погоди...</p>}

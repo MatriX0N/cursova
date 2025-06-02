@@ -4,7 +4,9 @@ import Main from "./pages/main/Main"
 import Bookmarks from "./pages/bookmarks/Bookmarks"
 import History from "./pages/history/History"
 import Profile from "./pages/prifile/Profile";
+import Comparison from "./pages/comparison/Comparison";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
           <Route path="/bookmarks" element={<Bookmarks />} />
           <Route path="/history" element={<History />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/comparison" element={<Comparison />} />
          
         </Routes>
       </div>

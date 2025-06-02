@@ -15,7 +15,6 @@ function Profile() {
 
       <div className={styles.details}>
         <p><strong>Username:</strong> {user.nickname}</p>
-        <p><strong>Locale:</strong> {user.locale}</p>
       </div>
     </article>
   );
